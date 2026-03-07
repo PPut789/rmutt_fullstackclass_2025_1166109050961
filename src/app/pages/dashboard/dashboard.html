@@ -1,1 +1,89 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <p>Welcome back, here's your inventory overview</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-title">Total Products</span>
+        <span class="stat-value">{{ stats.totalProducts }}</span>
+      </div>
+      <div class="stat-icon icon-blue"><i class="fas fa-cube"></i></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-title">Total Orders</span>
+        <span class="stat-value">{{ stats.totalOrders }}</span>
+      </div>
+      <div class="stat-icon icon-green"><i class="fas fa-shopping-cart"></i></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-title">Low Stock Items</span>
+        <span class="stat-value">{{ stats.lowStock }}</span>
+      </div>
+      <div class="stat-icon icon-orange"><i class="fas fa-exclamation-triangle"></i></div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <span class="stat-title">Total Suppliers</span>
+        <span class="stat-value">{{ stats.totalSuppliers }}</span>
+      </div>
+      <div class="stat-icon icon-purple"><i class="fas fa-building"></i></div>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    
+    <div class="recent-orders-card">
+      <h3>Recent Orders</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of stats.recentOrders; track order.order_number) {
+            <tr>
+              <td><strong>{{ order.order_number }}</strong></td>
+              <td>{{ order.customer_name }}</td>
+              <td>${{ order.total_amount }}</td>
+              <td><span class="badge" [ngClass]="order.status.toLowerCase()">{{ order.status }}</span></td>
+              <td>{{ order.order_date | date:'yyyy-MM-dd' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stock-overview-card">
+      <h3>Stock Overview</h3>
+      <div class="css-chart-container">
+        <div class="y-axis">
+          <span>600</span><span>450</span><span>300</span><span>150</span><span>0</span>
+        </div>
+        <div class="bars-area">
+          
+          @for (item of stats.stockByCategory; track item.category_name) {
+            <div class="bar-group">
+              <div class="bar" [style.height.%]="(item.total_stock / 600) * 100"></div>
+              <span class="label">{{ item.category_name }}</span>
+            </div>
+          }
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

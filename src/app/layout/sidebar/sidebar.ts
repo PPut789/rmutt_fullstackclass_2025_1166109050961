@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterModule], 
+  imports: [CommonModule, RouterLink, RouterLinkActive], // ต้องมี 2 ตัวนี้ถึงจะกดเปลี่ยนหน้าได้!
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.scss']
 })
-export class SidebarComponent {}
+export class SidebarComponent { }

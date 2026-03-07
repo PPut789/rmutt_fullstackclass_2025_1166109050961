@@ -1,45 +1,35 @@
 <div class="sidebar">
-
-<div class="sidebar-header">
-  <div class="logo-icon">
-    <i class="fas fa-cube"></i>
+  <div class="sidebar-header">
+    <div class="logo-icon">
+      <i class="fas fa-cube"></i>
+    </div>
+    <span class="logo-text">สรุปเว็ปนี้ชื่อไร</span>
   </div>
-  <span class="logo-text">ชื่ออะไรดีน้า</span>
-</div>
 
   <ul>
-      <li routerLink="/dashboard" routerLinkActive="active"[routerLinkActiveOptions]="{ exact: true }">
-        <i class="fas fa-chart-pie"></i> Dashboard
-      </li>
-
-      <li routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fas fa-box"></i> Products
-      </li>
-
-      <li routerLink="/categories" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fas fa-tags"></i> Categories
-      </li>
-
-      <li routerLink="/suppliers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">  
-        <i class="fas fa-truck"></i> Suppliers
-      </li>
-
-      <li routerLink="/warehouses"
-          routerLinkActive="active">
-        <i class="fas fa-warehouse"></i>
-        <span>Warehouses</span>
-      </li>
-
-      <li routerLink="/stock" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true } ">
-        <i class="fas fa-cubes"></i> Stock Levels
-      </li>
-
-      <li routerLink="/orders" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fas fa-shopping-cart"></i> Orders
-      </li>
-
-      <li routerLink="/shipments" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fas fa-shipping-fast"></i> Shipments
-      </li>
+    <li routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="fas fa-chart-pie"></i> <span>Dashboard</span>
+    </li>
+    <li routerLink="/products" routerLinkActive="active">
+      <i class="fas fa-box"></i> <span>Products</span>
+    </li>
+    <li routerLink="/categories" routerLinkActive="active">
+      <i class="fas fa-tags"></i> <span>Categories</span>
+    </li>
+    <li routerLink="/suppliers" routerLinkActive="active">  
+      <i class="fas fa-truck"></i> <span>Suppliers</span>
+    </li>
+    <li routerLink="/warehouses" routerLinkActive="active">
+      <i class="fas fa-warehouse"></i> <span>Warehouses</span>
+    </li>
+    <li routerLink="/stock" routerLinkActive="active">
+      <i class="fas fa-cubes"></i> <span>Stock Levels</span>
+    </li>
+    <li routerLink="/orders" routerLinkActive="active">
+      <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+    </li>
+    <li routerLink="/shipments" routerLinkActive="active">
+      <i class="fas fa-shipping-fast"></i> <span>Shipments</span>
+    </li>
   </ul>
 </div>

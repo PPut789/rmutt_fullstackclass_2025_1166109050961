@@ -1,24 +1,93 @@
 <nav class="navbar">
-  <div class="nav-left">
-  </div>
-
   <div class="search-box">
-    <input type="text" placeholder="Search products, orders, suppliers..." />
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" 
+           placeholder="Search products, orders, suppliers..." 
+           (keyup)="onTyping($event)"
+           (keydown.enter)="onEnter($event)"
+           (blur)="closeSearch()" 
+           (focus)="onTyping($event)" />
+
+    @if (isSearchOpen) {
+      <div class="search-results-dropdown">
+        <div class="dropdown-content">
+          
+          @if (searchResults.products.length > 0) {
+            <div class="search-category">📦 Products</div>
+            <ul>
+              @for (item of searchResults.products; track $index) {
+                <li>
+                  <div class="item-name">{{ item.product_name }}</div>
+                  <div class="item-desc">In {{ item.category_name }}</div>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (searchResults.suppliers.length > 0) {
+            <div class="search-category">🏢 Suppliers</div>
+            <ul>
+              @for (item of searchResults.suppliers; track $index) {
+                <li>
+                  <div class="item-name">{{ item.name }}</div>
+                  <div class="item-desc">Contact: {{ item.contact_person }}</div>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (searchResults.orders.length > 0) {
+            <div class="search-category">🛒 Orders</div>
+            <ul>
+              @for (item of searchResults.orders; track $index) {
+                <li>
+                  <div class="item-name">{{ item.order_number }}</div>
+                  <div class="item-desc">Customer: {{ item.customer_name }}</div>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (searchResults.shipments.length > 0) {
+            <div class="search-category">🚚 Shipments</div>
+            <ul>
+              @for (item of searchResults.shipments; track $index) {
+                <li>
+                  <div class="item-name">{{ item.tracking_number }}</div>
+                  <div class="item-desc">Carrier: {{ item.carrier }}</div>
+                </li>
+              }
+            </ul>
+          }
+
+        </div>
+      </div>
+    }
   </div>
 
   <div class="nav-right">
-    
     <div class="notification">
       <i class="far fa-bell"></i>
       <span class="dot"></span>
     </div>
 
-    <div class="profile">
-      <div class="avatar">JD</div>
-      <div class="info">
-        <div class="name">John Doe</div>
-        <div class="role">Administrator</div>
+    <div class="profile-container" (click)="toggleProfileMenu()">
+      <div class="profile">
+        <div class="avatar">{{ userInitials }}</div>
+        <div class="info">
+          <div class="name">{{ currentUser?.name || 'Guest' }}</div>
+          <div class="role">{{ currentUser?.position || 'User' }}</div>
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon"></i>
       </div>
+
+      @if (isProfileMenuOpen) {
+        <div class="dropdown-menu">
+          <ul>
+            <li class="logout" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+          </ul>
+        </div>
+      }
     </div>
   </div>
 </nav>

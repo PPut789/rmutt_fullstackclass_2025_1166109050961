@@ -1,5 +1,5 @@
 .navbar {
-  height: 70px;
+  height: 64px; /* ปรับให้เท่ากับหัว Sidebar */
   background: white;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
@@ -8,23 +8,34 @@
   padding: 0 30px;
 }
 
-.logo {
+.search-box {
+  position: relative;
   display: flex;
   align-items: center;
-  font-weight: 600;
-  font-size: 18px;
-}
 
-.icon {
-  margin-right: 10px;
-  font-size: 20px;
-}
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #9ca3af;
+    font-size: 13px; /* ลดขนาดแว่นขยาย */
+  }
 
-.search-box input {
-  width: 400px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  input {
+    width: 400px;
+    padding: 8px 15px 8px 36px; /* ลดความสูงช่องกรอกข้อความ */
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    font-size: 13px; /* ลดขนาดฟอนต์ */
+    outline: none;
+    transition: 0.2s;
+
+    &:focus {
+      border-color: #2563eb;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+  }
 }
 
 .nav-right {
@@ -33,10 +44,31 @@
   gap: 20px;
 }
 
-.notify {
-  font-size: 20px;
-  background: none;
-  border: none;
+.notification {
+  position: relative;
+  font-size: 18px; /* ลดขนาดกระดิ่ง */
+  color: #6b7280;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: #111827;
+  }
+
+  .dot {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+}
+
+.profile-container {
+  position: relative;
   cursor: pointer;
 }
 
@@ -44,42 +76,214 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+
+  .avatar {
+    width: 32px; /* ย่อรูปโปรไฟล์ */
+    height: 32px;
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    .name {
+      font-size: 13px; /* ย่อชื่อ */
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .role {
+      font-size: 11px; /* ย่อตำแหน่ง */
+      color: #6b7280;
+    }
+  }
+
+  .dropdown-icon {
+    font-size: 10px;
+    color: #9ca3af;
+  }
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  background: #2563eb;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.role {
-  font-size: 12px;
-  color: gray;
-}
-
-.notification {
-  position: relative;
-  font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
-}
-
-.notification:hover {
-  color: #111827;
-}
-
-.dot {
+.dropdown-menu {
   position: absolute;
-  top: 2px;
-  right: -2px;
-  width: 8px;
-  height: 8px;
-  background: #ef4444;
-  border-radius: 50%;
+  top: 115%;
+  right: 0;
+  width: 180px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  z-index: 50;
+  overflow: hidden;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+
+      i {
+        font-size: 14px;
+        color: #6b7280;
+        width: 20px;
+        text-align: center;
+      }
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      &.logout {
+        border-top: 1px solid #e5e7eb;
+        color: #ef4444;
+
+        i {
+          color: #ef4444;
+        }
+
+        &:hover {
+          background-color: #fef2f2;
+        }
+      }
+    }
+  }
+}
+/* กล่อง Dropdown สำหรับผลการค้นหา */
+.search-results-dropdown {
+  position: absolute;
+  top: 110%; /* ลอยอยู่ใต้ช่อง input */
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  z-index: 50;
+  max-height: 350px;
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+    }
+  }
+}
+
+.search-item {
+  display: flex;
+  flex-direction: column;
+
+  .item-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .item-category {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+}
+
+.search-results-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  z-index: 50;
+  max-height: 400px;
+  overflow-y: auto;
+
+  .dropdown-content {
+    padding: 8px 0;
+  }
+
+  .search-category {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    padding: 8px 16px 4px;
+    letter-spacing: 0.5px;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #f3f4f6;
+    border-top: 1px solid #f3f4f6;
+    margin-top: 8px;
+    
+    &:first-child {
+      margin-top: 0;
+      border-top: none;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: 0.15s;
+
+      &:hover {
+        background-color: #f3f4f6;
+      }
+
+      .item-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .item-desc {
+        font-size: 11px;
+        color: #6b7280;
+        margin-top: 2px;
+      }
+    }
+  }
 }

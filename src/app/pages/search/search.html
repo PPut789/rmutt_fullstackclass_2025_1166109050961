@@ -1,0 +1,129 @@
+@if (isLoading) {
+  <div style="text-align: center; padding: 60px 0; color: #6b7280;">
+    <i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 16px;"></i>
+    <p>Searching database...</p>
+  </div>
+} @else {
+  
+  @if (results.products.length === 0 && results.orders.length === 0 && results.suppliers.length === 0 && results.shipments.length === 0) {
+    <div class="no-results">
+      <i class="fas fa-search"></i>
+      <h3>No results found</h3>
+      <p>We couldn't find anything matching "{{ searchQuery }}"</p>
+    </div>
+  } @else {
+    
+    <div class="page-header">
+      <h2>Search Results for "{{ searchQuery }}"</h2>
+    </div>
+
+    @if (results.products.length > 0) {
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-box"></i> Products ({{ results.products.length }})</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Supplier</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of results.products; track $index) {
+              <tr>
+                <td><strong>{{ p.product_name }}</strong></td>
+                <td>{{ p.category_name }}</td>
+                <td>{{ p.supplier_name }}</td>
+                <td>${{ p.price }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (results.orders.length > 0) {
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-shopping-cart"></i> Orders ({{ results.orders.length }})</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of results.orders; track $index) {
+              <tr>
+                <td><strong>{{ o.order_number }}</strong></td>
+                <td>{{ o.customer_name }}</td>
+                <td>${{ o.total_amount }}</td>
+                <td><span class="badge">{{ o.status }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (results.suppliers.length > 0) {
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-building"></i> Suppliers ({{ results.suppliers.length }})</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Contact Person</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of results.suppliers; track $index) {
+              <tr>
+                <td><strong>{{ s.name }}</strong></td>
+                <td>{{ s.contact_person }}</td>
+                <td>{{ s.email }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (results.shipments.length > 0) {
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-truck"></i> Shipments ({{ results.shipments.length }})</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tracking Number</th>
+              <th>Carrier</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (sh of results.shipments; track $index) {
+              <tr>
+                <td><strong>{{ sh.tracking_number }}</strong></td>
+                <td>{{ sh.carrier }}</td>
+                <td><span class="badge">{{ sh.status }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+  }
+}

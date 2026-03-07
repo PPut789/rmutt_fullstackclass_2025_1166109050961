@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+/* นำเข้าฟอนต์ Inter จาก Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ตั้งค่าเริ่มต้นให้ทุกส่วนในเว็บ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif; /* ใช้ฟอนต์ Inter */
+}
+
+body {
+  background-color: #f3f4f6; /* สีพื้นหลังหลัก */
+  color: #111827;
+}

@@ -1,73 +1,70 @@
+.sidebar {
+  width: 240px;
+  background: white;
+  height: 100vh;
+  border-right: 1px solid #e5e7eb;
+}
+
 .sidebar-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 600;
-  font-size: 18px;
-  margin-bottom: 25px;
+  font-weight: 600; /* ลดความหนาลงนิดนึง */
+  font-size: 18px; /* ลดขนาดตัวอักษรโลโก้ */
+  height: 64px; /* ลดความสูง Navbar ให้เพรียวลง */
+  padding: 0 24px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 32px; /* ลดขนาดไอคอนโลโก้ */
+  height: 32px;
   background: #2563eb;
   color: white;
-  border-radius: 8px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.sidebar-header {
-  padding-bottom: 20px;
-}
-
-.sidebar {
-  width: 240px;
-  background: #f9fafb;
-  height: 100%;
-  padding: 20px;
-  border-right: 1px solid #e5e7eb;
+  font-size: 16px;
 }
 
 .sidebar ul {
   list-style: none;
-  padding: 0;
+  padding: 20px 16px;
+  margin: 0;
 }
 
 .sidebar li {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
-  border-radius: 12px;
+  gap: 12px;
+  padding: 10px 14px; /* ลดระยะห่างด้านในปุ่ม */
+  border-radius: 8px; /* ลดความโค้งมนลงให้ดูโปรเฟสชั่นแนลขึ้น */
   cursor: pointer;
-  margin-bottom: 8px;
-  color: #6b7280;   // เทาอ่อน
+  margin-bottom: 4px;
+  color: #6b7280;   
   transition: 0.2s ease;
+  font-size: 14px; /* ลดขนาดฟอนต์เมนู */
 }
 
 .sidebar li i {
-  font-size: 18px;
-  width: 22px;
+  font-size: 16px; /* ลดขนาดไอคอนเมนู */
+  width: 20px;
   text-align: center;
-  color: #9ca3af;  // เทา icon
+  color: #9ca3af;  
 }
 
 .sidebar li:hover {
   background: #f3f4f6;
+  color: #374151;
 }
 
 .sidebar li.active {
   background: #e5edff;
   color: #2563eb;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .sidebar li.active i {
   color: #2563eb;
-}
-
-.sidebar {
-  padding: 24px 18px;
 }
