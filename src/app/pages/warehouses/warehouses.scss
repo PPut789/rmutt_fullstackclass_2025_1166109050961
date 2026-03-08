@@ -1,0 +1,61 @@
+.page-container { padding: 10px; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+  h2 { font-size: 24px; color: #111827; margin: 0 0 4px 0; font-weight: 700; }
+  p { font-size: 14px; color: #6b7280; margin: 0; }
+}
+
+.btn-primary { background: #3b82f6; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; gap: 8px; align-items: center; transition: 0.2s;
+  &:hover { background: #2563eb; }
+}
+
+.table-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #f3f4f6; overflow-x: auto; }
+.loading-state { text-align: center; padding: 40px 0; color: #6b7280; font-size: 16px; i { margin-right: 8px; } }
+
+/* ================= Table Styles ================= */
+.data-table { width: 100%; border-collapse: collapse;
+  th, td { padding: 16px; text-align: left; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+  th { color: #6b7280; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;}
+  td { color: #374151; font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { transition: 0.15s; &:hover { background-color: #f9fafb; } }
+}
+
+.warehouse-name { display: flex; align-items: center; gap: 12px;
+  .text-blue { color: #3b82f6; font-size: 18px; background: #eff6ff; padding: 10px; border-radius: 8px; }
+  strong { display: block; color: #111827; font-size: 14px; margin-bottom: 4px; }
+  .location-text { font-size: 12px; color: #6b7280; display: flex; align-items: center; gap: 4px; }
+}
+
+/* ================= Progress Bar Styles ================= */
+.progress-container { width: 100%; max-width: 200px; }
+.progress-info { display: flex; justify-content: flex-end; font-size: 12px; font-weight: 600; color: #4b5563; margin-bottom: 6px; }
+.progress-bar-bg { width: 100%; height: 8px; background-color: #f3f4f6; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background-color: #10b981; border-radius: 4px; transition: width 0.5s ease;
+  &.warning { background-color: #f59e0b; } /* 75% ขึ้นไป เป็นสีเหลือง */
+  &.danger { background-color: #ef4444; }  /* 90% ขึ้นไป เป็นสีแดง */
+}
+
+.status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block;
+  &.active { background: #ecfdf5; color: #10b981; }
+  &.inactive { background: #f3f4f6; color: #6b7280; }
+  &.maintenance { background: #fffbeb; color: #f59e0b; }
+}
+
+.stock-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block;
+  &.in-stock { background: #f3f4f6; color: #374151; }
+}
+
+.action-buttons { display: flex; gap: 8px;
+  .btn-icon { width: 32px; height: 32px; border-radius: 6px; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; background: transparent; color: #9ca3af;
+    &.edit:hover { background: #eff6ff; color: #3b82f6; } &.delete:hover { background: #fef2f2; color: #ef4444; } }
+}
+
+/* ================= Modal Styles ================= */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(2px); }
+.modal-content { background: white; width: 100%; max-width: 500px; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); overflow: hidden; animation: modalFadeIn 0.2s ease-out; }
+@keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; h3 { margin: 0; font-size: 18px; color: #111827; } .close-btn { background: none; border: none; font-size: 18px; color: #9ca3af; cursor: pointer; &:hover { color: #ef4444; } } }
+.modal-body { padding: 24px; max-height: 70vh; overflow-y: auto; }
+.form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; &.half { flex: 1; margin-bottom: 0; } label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; .required { color: #ef4444; } } input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; color: #111827; outline: none; transition: 0.2s; font-family: inherit; box-sizing: border-box; &:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); } } textarea { resize: vertical; } }
+.modal-footer { padding: 16px 24px; border-top: 1px solid #f3f4f6; background: #f9fafb; display: flex; justify-content: flex-end; gap: 12px; .btn-secondary { background: white; border: 1px solid #d1d5db; padding: 10px 16px; border-radius: 8px; font-weight: 600; color: #374151; cursor: pointer; transition: 0.2s; &:hover { background: #f3f4f6; } } }

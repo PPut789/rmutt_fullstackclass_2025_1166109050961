@@ -1,1 +1,133 @@
-<p>shipments works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-info">
+      <h2>Shipments Tracking</h2>
+      <p>Manage carrier dispatch and package tracking</p>
+    </div>
+    <button class="btn-primary" (click)="openAddModal()">
+      <i class="fas fa-truck"></i> Create Shipment
+    </button>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading) {
+      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading shipments...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="15%">Tracking No.</th>
+            <th width="20%">Order Info</th>
+            <th width="15%">Carrier</th>
+            <th width="15%">Ship Date</th>
+            <th width="15%">Est. Delivery</th>
+            <th width="10%">Status</th>
+            <th width="10%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of shipments; track $index) {
+            <tr>
+              <td>
+                <span class="tracking-text"><i class="fas fa-barcode text-gray"></i> {{ s.tracking_number }}</span>
+              </td>
+              <td>
+                <div class="order-info">
+                  <strong>#ORD-{{ s.order_id }}</strong>
+                  <span>{{ s.customer_name || 'Unknown Customer' }}</span>
+                </div>
+              </td>
+              <td>{{ s.carrier_name || '-' }}</td>
+              <td class="date-text">{{ (s.shipping_date | date:'mediumDate') || '-' }}</td>
+              <td class="date-text">{{ (s.estimated_delivery_date | date:'mediumDate') || '-' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="s.status.toLowerCase().replace(' ', '-')">
+                  {{ s.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon edit" title="Edit Shipment" (click)="openEditModal(s)"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon delete" title="Delete" (click)="deleteShipment(s.id)"><i class="fas fa-trash-alt"></i></button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (isModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ modalMode === 'add' ? 'Create New Shipment' : 'Edit Shipment Details' }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="form-group">
+          <label>Select Order <span class="required">*</span></label>
+          <select [(ngModel)]="currentShipment.order_id" [disabled]="modalMode === 'edit'">
+            <option value="" disabled selected>-- Choose an Order --</option>
+            @for (o of orders; track $index) {
+              <option [value]="o.id">#ORD-{{ o.id }} ({{ o.customer_name }})</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Tracking Number <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="currentShipment.tracking_number" readonly title="Auto-generated">
+          </div>
+          
+          <div class="form-group half">
+            <label>Carrier Name <span class="required">*</span></label>
+            <select [(ngModel)]="currentShipment.carrier_name">
+              <option value="Flash Express">Flash Express</option>
+              <option value="Kerry Express">Kerry Express</option>
+              <option value="Thailand Post">Thailand Post (ไปรษณีย์ไทย)</option>
+              <option value="J&T Express">J&T Express</option>
+              <option value="Shopee Express">Shopee Express</option>
+              <option value="Lalamove">Lalamove</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Shipping Date</label>
+            <input type="date" [(ngModel)]="currentShipment.shipping_date">
+          </div>
+          <div class="form-group half">
+            <label>Est. Delivery Date</label>
+            <input type="date" [(ngModel)]="currentShipment.estimated_delivery_date">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Shipment Status</label>
+          <select [(ngModel)]="currentShipment.status">
+            <option value="Preparing">Preparing (กำลังจัดเตรียม)</option>
+            <option value="In Transit">In Transit (กำลังจัดส่ง)</option>
+            <option value="Out for Delivery">Out for Delivery (เตรียมนำจ่าย)</option>
+            <option value="Delivered">Delivered (ส่งสำเร็จ)</option>
+            <option value="Returned">Returned (ตีกลับ)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn-primary" (click)="saveShipment()">
+          {{ modalMode === 'add' ? 'Save Shipment' : 'Update Shipment' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

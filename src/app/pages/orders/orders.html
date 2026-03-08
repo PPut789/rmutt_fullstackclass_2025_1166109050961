@@ -1,1 +1,123 @@
-<p>orders works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-info">
+      <h2>Order Management</h2>
+      <p>Track customer orders and update shipping statuses</p>
+    </div>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading) {
+      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading orders...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="10%">Order ID</th>
+            <th width="20%">Customer</th>
+            <th width="20%">Order Date</th>
+            <th width="15%">Total Amount</th>
+            <th width="15%">Status</th>
+            <th width="15%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (o of orders; track $index) {
+            <tr>
+              <td><strong>#ORD-{{ o.id }}</strong></td>
+              <td>
+                <div class="customer-info">
+                  <strong>{{ o.customer_name }}</strong>
+                  <span>{{ o.customer_email || '-' }}</span>
+                </div>
+              </td>
+              <td class="date-text">{{ o.order_date | date:'medium' }}</td>
+              <td class="price-text">฿{{ o.total_amount | number:'1.2-2' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="o.status.toLowerCase()">
+                  {{ o.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon view" title="View Details" (click)="openViewModal(o)">
+                    <i class="fas fa-eye"></i> View
+                  </button>
+                  <button class="btn-icon delete" title="Delete Order" (click)="deleteOrder(o.id)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (isModalOpen && selectedOrder) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content large" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Order Details: #ORD-{{ selectedOrder.id }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="info-section">
+          <h4>Customer Information</h4>
+          <div class="info-grid">
+            <p><strong>Name:</strong> {{ selectedOrder.customer_name }}</p>
+            <p><strong>Email:</strong> {{ selectedOrder.customer_email || 'N/A' }}</p>
+            <p><strong>Phone:</strong> {{ selectedOrder.customer_phone || 'N/A' }}</p>
+            <p><strong>Date:</strong> {{ selectedOrder.order_date | date:'medium' }}</p>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h4>Items Ordered</h4>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of selectedOrder.items_detail; track $index) {
+                <tr>
+                  <td>{{ item.product_name || item.name || 'Unknown Item' }}</td>
+                  <td>฿{{ item.price | number:'1.2-2' }}</td>
+                  <td>x{{ item.qty || item.quantity }}</td>
+                  <td><strong>฿{{ (item.price * (item.qty || item.quantity)) | number:'1.2-2' }}</strong></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <div class="order-total">
+            <h3>Grand Total: <span>฿{{ selectedOrder.total_amount | number:'1.2-2' }}</span></h3>
+          </div>
+        </div>
+
+        <div class="info-section update-status-box">
+          <h4>Update Order Status</h4>
+          <div class="status-control">
+            <select [(ngModel)]="newStatus">
+              <option value="Pending">Pending (รอตรวจสอบ)</option>
+              <option value="Processing">Processing (กำลังเตรียมจัดส่ง)</option>
+              <option value="Shipped">Shipped (จัดส่งแล้ว)</option>
+              <option value="Delivered">Delivered (ลูกค้าได้รับของแล้ว)</option>
+              <option value="Cancelled">Cancelled (ยกเลิก)</option>
+            </select>
+            <button class="btn-primary" (click)="updateStatus()">Update</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

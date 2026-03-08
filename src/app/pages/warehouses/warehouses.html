@@ -1,1 +1,131 @@
-<p>warehouses works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-info">
+      <h2>Warehouses</h2>
+      <p>Manage your warehouse locations and capacity</p>
+    </div>
+    <button class="btn-primary" (click)="openAddModal()">
+      <i class="fas fa-plus"></i> Add Warehouse
+    </button>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading) {
+      <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading warehouses...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="25%">Warehouse Name</th>
+            <th width="15%">Manager</th>
+            <th width="20%">Capacity Utilization</th>
+            <th width="15%">Current Stock</th>
+            <th width="15%">Status</th>
+            <th width="10%">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (w of warehouses; track $index) {
+            <tr>
+              <td>
+                <div class="warehouse-name">
+                  <i class="fas fa-warehouse text-blue"></i>
+                  <div>
+                    <strong>{{ w.name }}</strong>
+                    <span class="location-text"><i class="fas fa-map-marker-alt"></i> {{ w.location || '-' }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>{{ w.manager_name || '-' }}</td>
+              
+              <td>
+                <div class="progress-container">
+                  <div class="progress-info">
+                    <span>{{ w.capacity_percentage || 0 }}%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" 
+                         [style.width.%]="w.capacity_percentage || 0"
+                         [ngClass]="{'danger': w.capacity_percentage >= 90, 'warning': w.capacity_percentage >= 75 && w.capacity_percentage < 90}">
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span class="stock-badge in-stock">{{ w.total_current_stock || 0 }} items</span>
+              </td>
+              <td>
+                <span class="status-badge" [ngClass]="w.status === 'Active' ? 'active' : 'inactive'">
+                  {{ w.status || 'Active' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon edit" title="Edit" (click)="openEditModal(w)"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon delete" title="Delete" (click)="deleteWarehouse(w.id, w.name)"><i class="fas fa-trash-alt"></i></button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+@if (isModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ modalMode === 'add' ? 'Add Warehouse' : 'Edit Warehouse' }}</h3>
+        <button class="close-btn" (click)="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Warehouse Name <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="currentWarehouse.name" placeholder="e.g. Bangna Distribution Center">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Location (City/Province)</label>
+            <input type="text" [(ngModel)]="currentWarehouse.location" placeholder="e.g. Samut Prakan">
+          </div>
+          <div class="form-group half">
+            <label>Manager Name</label>
+            <input type="text" [(ngModel)]="currentWarehouse.manager_name" placeholder="John Doe">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Max Capacity (Items)</label>
+            <input type="number" [(ngModel)]="currentWarehouse.max_capacity" min="1" placeholder="e.g. 5000">
+          </div>
+          <div class="form-group half">
+            <label>Status</label>
+            <select [(ngModel)]="currentWarehouse.status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Full Address</label>
+          <textarea [(ngModel)]="currentWarehouse.address" rows="2" placeholder="123 Main St..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn-primary" (click)="saveWarehouse()">
+          {{ modalMode === 'add' ? 'Save Warehouse' : 'Update Warehouse' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
