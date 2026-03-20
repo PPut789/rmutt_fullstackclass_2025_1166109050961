@@ -23,6 +23,8 @@ export class ShipmentsComponent implements OnInit {
   };
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  //private http: HttpClient คือการใช้ HttpClient เพื่อทำการส่งคำขอ HTTP ไปยังเซิร์ฟเวอร์เพื่อดึงข้อมูลออร์เดอร์จาก API และจัดการกับการตอบกลับที่ได้รับมา โดย HttpClient จะช่วยให้เราสามารถทำงานกับ API ได้อย่างง่ายดายและมีประสิทธิภาพมากขึ้น
+  //private cdr: ChangeDetectorRef คือการใช้ ChangeDetectorRef เพื่อบังคับให้ Angular ตรวจสอบการเปลี่ยนแปลงของข้อมูลและอัปเดต UI เมื่อมีการเปลี่ยนแปลงเกิดขึ้น โดยเฉพาะเมื่อมีการอัปเดตข้อมูลที่ไม่ได้เกิดจากการกระทำของ Angular เอง เช่น การรับข้อมูลจาก API หรือการเปลี่ยนแปลงข้อมูลในฟอร์ม
 
   ngOnInit() {
     this.fetchShipments();
@@ -56,7 +58,7 @@ export class ShipmentsComponent implements OnInit {
 
   // ... (โค้ดด้านบน fetchShipments, fetchOrders ปล่อยไว้เหมือนเดิม) ...
 
-  // 🌟 ฟังก์ชันใหม่: สุ่มเลข Tracking (เช่น TH202603091234)
+  // ฟังก์ชันใหม่: สุ่มเลข Tracking (เช่น TH202603091234)
   generateTrackingNumber(): string {
     const prefix = 'TH';
     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, ''); // ดึงวันที่มาต่อกัน
@@ -70,8 +72,8 @@ export class ShipmentsComponent implements OnInit {
     
     this.currentShipment = { 
       order_id: '', 
-      tracking_number: this.generateTrackingNumber(), // 🌟 ให้มันสร้างเลข Tracking อัตโนมัติเลย
-      carrier_name: 'Flash Express', // 🌟 ตั้งค่าเริ่มต้นเป็นขนส่งที่ใช้บ่อย
+      tracking_number: this.generateTrackingNumber(), // ให้มันสร้างเลข Tracking อัตโนมัติเลย
+      carrier_name: 'Flash Express', // ตั้งค่าเริ่มต้นเป็นขนส่งที่ใช้บ่อย
       shipping_date: today, 
       estimated_delivery_date: '', 
       status: 'Preparing' // เปลี่ยน Default เป็นเตรียมจัดส่ง
@@ -81,11 +83,12 @@ export class ShipmentsComponent implements OnInit {
 
   openEditModal(s: any) {
     this.modalMode = 'edit';
-    this.currentShipment = { 
+    this.currentShipment = { // คัดลอกข้อมูลเดิมมาแก้ไข โดยแปลงวันที่ให้เป็นรูปแบบที่ input type="date" รับได้
       ...s,
-      shipping_date: s.shipping_date ? new Date(s.shipping_date).toISOString().split('T')[0] : '',
+      shipping_date: s.shipping_date ? new Date(s.shipping_date).toISOString().split('T')[0] : '', 
       estimated_delivery_date: s.estimated_delivery_date ? new Date(s.estimated_delivery_date).toISOString().split('T')[0] : ''
-    };
+      // แปลงวันที่ให้เป็นรูปแบบที่ input type="date" รับได้ (YYYY-MM-DD) และเช็คว่ามีค่าวันที่หรือไม่ก่อนแปลง
+    }; 
     this.isModalOpen = true;
   }
 
@@ -98,7 +101,8 @@ export class ShipmentsComponent implements OnInit {
   }
 
   saveShipment() {
-    if (!this.currentShipment.order_id || !this.currentShipment.tracking_number) {
+    if (!this.currentShipment.order_id || !this.currentShipment.tracking_number) { 
+      // ตรวจสอบว่ามีการกรอก Order ID และ Tracking Number หรือไม่
       alert('Order ID and Tracking Number are required!');
       return;
     }

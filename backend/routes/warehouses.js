@@ -21,7 +21,8 @@ router.get('/warehouses', async (req, res) => {
           ELSE 0 
         END AS capacity_percentage
       FROM warehouses w
-      LEFT JOIN stock_levels sl ON w.id = sl.warehouse_id
+      LEFT JOIN stock_levels sl ON w.id = sl.warehouse_id 
+      // เชื่อมกับตาราง stock_levels เพื่อคำนวณจำนวนสินค้าคงเหลือ โดยใช้ LEFT JOIN เพื่อให้แสดงคลังสินค้าที่ไม่มีรายการ stock_levels ด้วย LEFT JOIN จะดึงข้อมูลจากตารางทางซ้าย (warehouses) ทั้งหมด และถ้าไม่มีข้อมูลที่ตรงกันในตารางทางขวา (stock_levels) จะเติมค่า NULL ซึ่งจะถูกจัดการด้วย COALESCE เพื่อให้เป็น 0 แทน
       GROUP BY w.id
       ORDER BY w.id ASC
     `);
@@ -47,7 +48,7 @@ router.post('/warehouses', async (req, res) => {
     res.json({ success: true, message: 'เพิ่มคลังสินค้าสำเร็จ' });
   } catch (err) {
     console.error('Create Warehouse Error:', err);
-    res.status(500).send('Server error');
+    res.status(500).send('Server error'); // status(500) หมายถึงเกิดข้อผิดพลาดภายในเซิร์ฟเวอร์ ซึ่งอาจเกิดจากปัญหาการเชื่อมต่อฐานข้อมูลหรือข้อผิดพลาดในการประมวลผลคำสั่ง SQL
   }
 });
 

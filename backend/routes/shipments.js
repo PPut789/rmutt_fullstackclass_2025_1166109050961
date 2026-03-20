@@ -17,6 +17,7 @@ router.get('/shipments', async (req, res) => {
         o.customer_name 
       FROM shipments s
       LEFT JOIN orders o ON s.order_id = o.id
+      // เชื่อมกับตาราง stock_levels เพื่อคำนวณจำนวนสินค้าคงเหลือ โดยใช้ LEFT JOIN เพื่อให้แสดงคลังสินค้าที่ไม่มีรายการ stock_levels ด้วย LEFT JOIN จะดึงข้อมูลจากตารางทางซ้าย (warehouses) ทั้งหมด และถ้าไม่มีข้อมูลที่ตรงกันในตารางทางขวา (stock_levels) จะเติมค่า NULL ซึ่งจะถูกจัดการด้วย COALESCE เพื่อให้เป็น 0 แทน
       ORDER BY s.id DESC
     `);
 

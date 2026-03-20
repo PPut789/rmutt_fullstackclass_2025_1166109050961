@@ -21,13 +21,16 @@ export class WarehousesComponent implements OnInit {
   };
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  //private http: HttpClient คือการใช้ HttpClient เพื่อทำการส่งคำขอ HTTP ไปยังเซิร์ฟเวอร์เพื่อดึงข้อมูลออร์เดอร์จาก API และจัดการกับการตอบกลับที่ได้รับมา โดย HttpClient จะช่วยให้เราสามารถทำงานกับ API ได้อย่างง่ายดายและมีประสิทธิภาพมากขึ้น
+  //private cdr: ChangeDetectorRef คือการใช้ ChangeDetectorRef เพื่อบังคับให้ Angular ตรวจสอบการเปลี่ยนแปลงของข้อมูลและอัปเดต UI เมื่อมีการเปลี่ยนแปลงเกิดขึ้น โดยเฉพาะเมื่อมีการอัปเดตข้อมูลที่ไม่ได้เกิดจากการกระทำของ Angular เอง เช่น การรับข้อมูลจาก API หรือการเปลี่ยนแปลงข้อมูลในฟอร์ม
 
   ngOnInit() {
     this.fetchWarehouses();
   }
 
   fetchWarehouses() {
-    this.http.get('http://localhost:3000/warehouses').subscribe({
+    this.http.get('http://localhost:3000/warehouses').subscribe({ 
+      // subscribe() คือการสมัครรับข้อมูลจาก Observable ที่ส่งกลับมาจาก HttpClient.get() ซึ่งเป็นวิธีที่ Angular ใช้ในการจัดการกับการทำงานแบบอะซิงโครนัส เมื่อมีการเรียก subscribe() จะทำให้คำขอ HTTP ถูกส่งไปยังเซิร์ฟเวอร์ และเมื่อได้รับการตอบกลับจะเรียกฟังก์ชันที่กำหนดใน next: (res: any) => {...} เพื่อจัดการกับข้อมูลที่ได้รับมา และถ้าเกิดข้อผิดพลาดจะเรียกฟังก์ชันใน error: (err) => {...} เพื่อจัดการกับข้อผิดพลาดนั้น
       next: (res: any) => {
         this.warehouses = res;
         this.isLoading = false;
@@ -55,7 +58,7 @@ export class WarehousesComponent implements OnInit {
 
   openEditModal(w: any) {
     this.modalMode = 'edit';
-    this.currentWarehouse = { ...w }; 
+    this.currentWarehouse = { ...w }; // คัดลอกข้อมูลเดิมมาแก้ไข
     this.isModalOpen = true;
   }
 
