@@ -22,10 +22,10 @@ router.get('/warehouses', async (req, res) => {
         END AS capacity_percentage
       FROM warehouses w
       LEFT JOIN stock_levels sl ON w.id = sl.warehouse_id 
-      // เชื่อมกับตาราง stock_levels เพื่อคำนวณจำนวนสินค้าคงเหลือ โดยใช้ LEFT JOIN เพื่อให้แสดงคลังสินค้าที่ไม่มีรายการ stock_levels ด้วย LEFT JOIN จะดึงข้อมูลจากตารางทางซ้าย (warehouses) ทั้งหมด และถ้าไม่มีข้อมูลที่ตรงกันในตารางทางขวา (stock_levels) จะเติมค่า NULL ซึ่งจะถูกจัดการด้วย COALESCE เพื่อให้เป็น 0 แทน
       GROUP BY w.id
       ORDER BY w.id ASC
     `);
+    // เชื่อมกับตาราง stock_levels เพื่อคำนวณจำนวนสินค้าคงเหลือ โดยใช้ LEFT JOIN เพื่อให้แสดงคลังสินค้าที่ไม่มีรายการ stock_levels ด้วย LEFT JOIN จะดึงข้อมูลจากตารางทางซ้าย (warehouses) ทั้งหมด และถ้าไม่มีข้อมูลที่ตรงกันในตารางทางขวา (stock_levels) จะเติมค่า NULL ซึ่งจะถูกจัดการด้วย COALESCE เพื่อให้เป็น 0 แทน
 
     res.json(result.rows);
   } catch (err) {
